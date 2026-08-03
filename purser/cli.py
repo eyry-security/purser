@@ -19,6 +19,8 @@ import json
 import sys
 import time
 
+import redis as _redis
+
 from . import __version__
 from .job import TIERS
 from .queue import Purser
@@ -119,7 +121,10 @@ def cmd_ingest(args) -> int:
                 if item is None:
                     break
             else:
-                popped = q.r.brpop(args.src, timeout=5)
+                try:
+                    popped = q.r.brpop(args.src, timeout=5)
+                except _redis.exceptions.TimeoutError:
+                    continue  # nothing arrived within the socket window; keep waiting
                 if popped is None:
                     continue
                 item = popped[1]
