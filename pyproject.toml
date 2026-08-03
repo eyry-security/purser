@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "purser"
+version = "0.1.0"
+description = "Redis-backed priority work queue with retries and a dead-letter queue. The quartermaster of the Eyry recon suite."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Eyry", email = "hello@eyry.io" }]
+keywords = ["redis", "queue", "task-queue", "priority-queue", "recon", "bugbounty", "distributed"]
+dependencies = [
+    "redis>=5.0",
+]
+
+[project.urls]
+Homepage = "https://eyry.io"
+Repository = "https://github.com/eyry-security/purser"
+
+[project.scripts]
+purser = "purser.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["purser*"]
